@@ -38,7 +38,7 @@ class Recipe extends React.Component {
                 <Table bordered hover>
                     <thead>
                         <tr>
-                            <th colSpan="2"><a href={this.props.recipe.href}>{this.props.recipe.title}</a></th>
+                            <th colSpan="2"><a target="_blank" href={this.props.recipe.href}>{this.props.recipe.title}</a></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,17 +69,17 @@ class Recipes extends React.Component {
         // this.componentDidUpdate = this.componentDidUpdate.bind(this);
     }
 
-    fetchRecipes(selectedIngred, pageInd){
+    fetchRecipes(selectedIngred, pageInd) {
         let url = "https://recipepuppyproxy.herokuapp.com/api/?i=" + selectedIngred.join() + "&p=" + pageInd;
         console.log(url)
         fetch(url)
             .then(res => res.json())
             .then(
-            (result) => {
-                this.setState({ recipes: result.results });
-            },
-            (error) => { console.log(error); }
-         );
+                (result) => {
+                    this.setState({ recipes: result.results });
+                },
+                (error) => { console.log(error); }
+            );
     }
 
     componentDidMount(){
@@ -88,7 +88,7 @@ class Recipes extends React.Component {
             this.fetchRecipes(this.props.selectedIngred, 1);
         },100);
     }
-    
+
     componentDidUpdate(prevProps) { //invoked immediately after updating occurs
         if (JSON.stringify(this.props.selectedIngred) !== JSON.stringify(prevProps.selectedIngred)) {
             console.log("componentDidUpdate's selectedIngred: ", this.props.selectedIngred);

@@ -181,15 +181,35 @@ export class Page extends React.Component {
             expiryDB: [
                 {
                     name: "Apple",
-                    expiryTimeFrame: 10 // days
+                    expiryTimeFrame: 6 // days
                 },
                 {
                     name: "Bread",
-                    expiryTimeFrame: 10 // days
+                    expiryTimeFrame: 7 // days
                 },
                 {
                     name: "Milk",
-                    expiryTimeFrame: 10 // days
+                    expiryTimeFrame: 7 // days
+                },
+                {
+                    name: "Avocado",
+                    expiryTimeFrame: 6 // days
+                },
+                {
+                    name: "Peach",
+                    expiryTimeFrame: 3 // days
+                },
+                {
+                    name: "Salmon",
+                    expiryTimeFrame: 1 // days
+                },
+                {
+                    name: "Eggs",
+                    expiryTimeFrame: 1 // days
+                },
+                {
+                    name: "Honey",
+                    expiryTimeFrame: 1825 // days
                 },
             ],
             selected: [],
@@ -266,38 +286,40 @@ export class Page extends React.Component {
         }
         this.updateSI();
     }
-    updateSI(){
-        setTimeout(() => 
-        {  // waiting for this.state.selected to update
+    updateSI() {
+        setTimeout(() => {  // waiting for this.state.selected to update
             let sI = []
             let eI = []
             // find ingredients expiring in 7 days
-            for (const ingred of this.state.ingredients){
+            for (const ingred of this.state.ingredients) {
                 let futureExpireDate = new Date(); //today
                 futureExpireDate.setDate(futureExpireDate.getDate() + 7);
-                if (ingred.expiryDate <= futureExpireDate){
+                if (ingred.expiryDate <= futureExpireDate) {
                     eI.push(ingred.name);
                 }
             }
-            if (this.state.selected.length == 0){ //if no ingredient selected
+            if (this.state.selected.length == 0) { //if no ingredient selected
                 sI = eI.slice();
             }
-            else{ // has ingredient selected: pass back the selected
-                for (const selectedI of this.state.selected){
+            else { // has ingredient selected: pass back the selected
+                for (const selectedI of this.state.selected) {
                     let ind = this.state.ingredients.findIndex((i) => { return i.id === selectedI });
-                    sI.push(this.state.ingredients[ind].name) // an array of names of selected ingredients
+                    if (ind !== -1) {
+                        sI.push(this.state.ingredients[ind].name.toLowerCase()) // an array of names of selected ingredients
+
+                    }
                 }
             }
-            if (typeof this.props.callbackFromParents === "function") { 
+            if (typeof this.props.callbackFromParents === "function") {
                 this.props.callbackFromParents(sI, eI);
-            }else{ // from Header
+            } else { // from Header
                 this.props.location.callbackFromParents(sI, eI);
             }
             
             this.setState({selectedIngred: sI})
             //console.log("updateSI called: ", this.state.selected, sI, this.state.selectedIngred)
         },
-        100); 
+            100);
     }
 
     render() {
@@ -317,9 +339,9 @@ export class Page extends React.Component {
 
                     <Link
                         to={{
-                        pathname: "/recipes",
-                        selectedIngred: this.state.selectedIngred
-                    }}>
+                            pathname: "/recipes",
+                            selectedIngred: this.state.selectedIngred
+                        }}>
                         <Button className="greenButton" variant="primary">Generate Recipes!</Button>
                     </Link>
                 </div>
