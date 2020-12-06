@@ -269,6 +269,7 @@ export class Page extends React.Component {
             array.splice(index, 1);
             this.setState({ ingredients: array });
         }
+        //this.select(id) //to remove it form selected
     }
 
     isSelected(id) {
@@ -286,6 +287,7 @@ export class Page extends React.Component {
         }
         this.updateSI();
     }
+
     updateSI() {
         setTimeout(() => {  // waiting for this.state.selected to update
             let sI = []
@@ -306,10 +308,16 @@ export class Page extends React.Component {
                     let ind = this.state.ingredients.findIndex((i) => { return i.id === selectedI });
                     if (ind !== -1) {
                         sI.push(this.state.ingredients[ind].name.toLowerCase()) // an array of names of selected ingredients
-
+                        console.log("sI push: ", this.state.ingredients[ind].name.toLowerCase())
                     }
                 }
+                //none of the ones in selected is in ingredients -> all deleted
+                if (sI.length === 0){
+                    sI = eI.slice();
+                }
             }
+            console.log("eI", eI)
+            console.log("sI", sI)
             if (typeof this.props.callbackFromParents === "function") {
                 this.props.callbackFromParents(sI, eI);
             } else { // from Header
