@@ -60,14 +60,14 @@ class List extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.ingredients.map((ingredient, index) => (
-                            <tr key={index}>
+                        {this.props.ingredients.map((ingredient) => (
+                            <tr key={ingredient.id}>
                                 <td>{ingredient.name}</td>
                                 <td className="ingredientExpiry">
                                     {this.formatDate(ingredient.expiryDate)}
                                     <Button
                                         variant="outline-secondary"
-                                        onClick={() => this.props.deleteIngredient(ingredient.name)}
+                                        onClick={() => this.props.deleteIngredient(ingredient.id)}
                                     >Delete</Button>
                                 </td>
                             </tr>
@@ -83,12 +83,15 @@ export class Page extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            nextid: 2,
             ingredients: [
                 {
+                    id: 0,
                     name: "Apple",
                     expiryDate: Date.now()
                 },
                 {
+                    id: 1,
                     name: "Milk",
                     expiryDate: Date.now()
                 }
@@ -121,15 +124,16 @@ export class Page extends React.Component {
         }
 
         let ingredient = {
+            id: this.state.nextid,
             name: ingredientName,
             expiryDate: expire
         }
-        this.setState({ ingredients: [...this.state.ingredients, ingredient] })
+        this.setState({ nextid: this.state.nextid + 1, ingredients: [...this.state.ingredients, ingredient] })
     }
 
-    deleteIngredient(ingredientName) {
+    deleteIngredient(id) {
         var array = [...this.state.ingredients]; // make a separate copy of the array
-        var index = array.findIndex((i) => { return i.name === ingredientName });
+        var index = array.findIndex((i) => { return i.id === id });
         if (index !== -1) {
             array.splice(index, 1);
             this.setState({ ingredients: array });
