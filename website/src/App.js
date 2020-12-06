@@ -1,23 +1,40 @@
+
+import React, { Component } from "react";
 import logo from './logo.svg';
 import './App.css';
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams
+} from "react-router-dom";
+
+import { Page as GroceryPage } from './pages/GroceryList';
+import { Page as RecipesPage } from './pages/Recipes';
+import { Page as RecipePage } from './pages/Recipe';
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+
+        <li>
+          <Link to="/groceries">My Groceries</Link>
+        </li>
+        <li>
+          <Link to="/recipes">Recipes</Link>
+        </li>
+
+        <Switch>
+          <Route exact path="/" component={GroceryPage}></Route>
+          <Route exact path="/groceries" component={GroceryPage}></Route>
+          <Route exact path="/recipes" component={RecipesPage}></Route>
+          <Route exact path="/recipes/:id" component={RecipePage}></Route>
+        </Switch>
+
+      </Router>
     </div>
   );
 }
