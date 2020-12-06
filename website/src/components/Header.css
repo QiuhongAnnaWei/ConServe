@@ -1,0 +1,18 @@
+.headerOuter {
+    background-color: #006837;
+    width: 100vw;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerOuter img {
+    height: 40px;
+}
+
+.headerOuter a {
+    color: white;
+    margin-right: 30px;
+}

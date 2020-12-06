@@ -25,6 +25,29 @@
     justify-content: space-between;
 }
 
+.ingredientExpiryForm {
+    max-width: 200px;
+}
+
 .editButton {
     margin-right: 10px;
+}
+
+.trActive {
+    background-color: lightblue !important;
+}
+.listRow {
+    width: 100%;
+}
+.listRow tr {
+    width: 100%;
+}
+
+.greenButton {
+    background-color: #006837 !important;
+    border-color: #003f22 !important;
+}
+
+.greenButton:hover {
+    background-color: #003f22 !important;
 }
