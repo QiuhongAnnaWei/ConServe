@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import './GroceryList.css';
 import { InputGroup, FormControl, Button, Table } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Editable from "../components/Editable";
-import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams
+} from "react-router-dom";
 
 class Input extends React.Component {
     constructor(props) {
@@ -258,7 +264,7 @@ export class Page extends React.Component {
                         select={(i) => this.select(i)}
                         isSelected={(i) => this.isSelected(i)}
                     ></List>
-                    <Button variant="primary">Generate Recipes!</Button>
+                    <Link to="/recipes"><Button className="greenButton" variant="primary">Generate Recipes!</Button></Link>
                 </div>
             </div>
         )

@@ -13,18 +13,14 @@ import {
 
 import { Page as GroceryPage } from './pages/GroceryList';
 import { Page as RecipesPage } from './pages/Recipes';
+import Header from './components/Header';
 
 function App() {
   return (
     <div>
       <Router>
 
-        <li>
-          <Link to="/groceries">My Groceries</Link>
-        </li>
-        <li>
-          <Link to="/recipes">Recipes</Link>
-        </li>
+        <Header></Header>
 
         <Switch>
           <Route exact path="/" component={GroceryPage}></Route>
