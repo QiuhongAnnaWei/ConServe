@@ -181,15 +181,35 @@ export class Page extends React.Component {
             expiryDB: [
                 {
                     name: "Apple",
-                    expiryTimeFrame: 10 // days
+                    expiryTimeFrame: 6 // days
                 },
                 {
                     name: "Bread",
-                    expiryTimeFrame: 10 // days
+                    expiryTimeFrame: 7 // days
                 },
                 {
                     name: "Milk",
-                    expiryTimeFrame: 10 // days
+                    expiryTimeFrame: 7 // days
+                },
+                {
+                    name: "Avocado",
+                    expiryTimeFrame: 6 // days
+                },
+                {
+                    name: "Peach",
+                    expiryTimeFrame: 3 // days
+                },
+                {
+                    name: "Salmon",
+                    expiryTimeFrame: 1 // days
+                },
+                {
+                    name: "Eggs",
+                    expiryTimeFrame: 1 // days
+                },
+                {
+                    name: "Honey",
+                    expiryTimeFrame: 1825 // days
                 },
             ],
             selected: [],
@@ -284,7 +304,10 @@ export class Page extends React.Component {
             else { // has ingredient selected: pass back the selected
                 for (const selectedI of this.state.selected) {
                     let ind = this.state.ingredients.findIndex((i) => { return i.id === selectedI });
-                    sI.push(this.state.ingredients[ind].name.toLowerCase()) // an array of names of selected ingredients
+                    if (ind !== -1) {
+                        sI.push(this.state.ingredients[ind].name.toLowerCase()) // an array of names of selected ingredients
+
+                    }
                 }
             }
             if (typeof this.props.callbackFromParents === "function") {
