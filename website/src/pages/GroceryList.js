@@ -163,6 +163,7 @@ export class ListRow extends React.Component {
 export class Page extends React.Component {
     constructor(props) {
         super(props);
+        this.updateSI = this.updateSI.bind(this);
         this.state = {
             nextid: 2,
             ingredients: [
@@ -191,8 +192,10 @@ export class Page extends React.Component {
                     expiryTimeFrame: 10 // days
                 },
             ],
-            selected: []
+            selected: [],
+            selectedIngred: []
         }
+        this.updateSI(); // setting sI and eI as Apple and Milk
     }
 
     addIngredient(ingredientName) {
@@ -208,9 +211,10 @@ export class Page extends React.Component {
         let ingredient = {
             id: this.state.nextid,
             name: ingredientName,
-            expiryDate: expire
+            expiryDate: expire,
         }
         this.setState({ nextid: this.state.nextid + 1, ingredients: [...this.state.ingredients, ingredient] })
+        this.updateSI();
     }
 
     editIngredient(id, name, expiryDate) {
@@ -221,6 +225,7 @@ export class Page extends React.Component {
                 break;
             }
         }
+        this.updateSI();
     }
 
     deleteIngredient(id) {
@@ -239,15 +244,46 @@ export class Page extends React.Component {
     select(id) {
         var array = [...this.state.selected]; // make a separate copy of the array
         var index = array.indexOf(id);
-        console.log(index);
         if (index == -1) {
-            console.log("adding");
             this.setState({ selected: [...this.state.selected, id] })
         } else {
-            console.log("deleting");
             array.splice(index, 1);
             this.setState({ selected: array });
         }
+        this.updateSI();
+    }
+    updateSI(){
+        setTimeout(() => 
+        {  // waiting for this.state.selected to update
+            let sI = []
+            let eI = []
+            // find ingredients expiring in 7 days
+            for (const ingred of this.state.ingredients){
+                let futureExpireDate = new Date(); //today
+                futureExpireDate.setDate(futureExpireDate.getDate() + 7);
+                if (ingred.expiryDate <= futureExpireDate){
+                    eI.push(ingred.name);
+                }
+            }
+            if (this.state.selected.length == 0){ //if no ingredient selected
+                sI = eI.slice();
+            }
+            else{ // has ingredient selected: pass back the selected
+                for (const selectedI of this.state.selected){
+                    let ind = this.state.ingredients.findIndex((i) => { return i.id === selectedI });
+                    sI.push(this.state.ingredients[ind].name) // an array of names of selected ingredients
+                }
+            }
+            if (typeof this.props.callbackFromParents === "function") { 
+                this.props.callbackFromParents(sI, eI);
+            }else{ // from Header
+                this.props.location.callbackFromParents(sI, eI);
+            }
+            
+            this.setState({selectedIngred: sI})
+            console.log("updateSI called: ", this.state.selected, sI, this.state.selectedIngred)
+        },
+        100); 
     }
 
     render() {
@@ -264,7 +300,14 @@ export class Page extends React.Component {
                         select={(i) => this.select(i)}
                         isSelected={(i) => this.isSelected(i)}
                     ></List>
-                    <Link to="/recipes"><Button className="greenButton" variant="primary">Generate Recipes!</Button></Link>
+
+                    <Link
+                        to={{
+                        pathname: "/recipes",
+                        selectedIngred: this.state.selectedIngred
+                    }}>
+                        <Button className="greenButton" variant="primary">Generate Recipes!</Button>
+                    </Link>
                 </div>
             </div>
         )

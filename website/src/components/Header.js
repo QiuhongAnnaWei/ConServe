@@ -12,18 +12,22 @@ import {
 
 export default class Header extends React.Component {
     render() {
-        let ingred = ['onions', 'garlic', 'mushroom']
+        // let ingred = ['onions', 'garlic', 'mushroom']
         return (
             <div className="headerOuter">
                 <img src={Logo}></img>
                 <div>
-                    <Link to="/groceries">My Groceries</Link>
+                    {/* <Link to="/groceries">My Groceries</Link> */}
+                    <Link
+                        to={{
+                        pathname: "/groceries",
+                        callbackFromParents: this.props.callbackFromParents
+                    }}>My Groceries</Link>
+
                     <Link
                         to={{
                         pathname: "/recipes",
-                        // state:"test",
-                        // selectedIngred: fruits
-                        selectedIngred: ingred 
+                        selectedIngred: this.props.expiringIngred
                     }}>Recipes</Link>
 
                     

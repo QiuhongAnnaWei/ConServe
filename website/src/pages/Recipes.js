@@ -8,7 +8,7 @@ class SelectedIngredients extends React.Component {
         <div>
             <ul>
                 {this.props.selectedIngred.map((ingredient) =>
-        <li>{ingredient}</li>)}
+                    <li>{ingredient}</li>)}
             </ul>
         </div>
       );
@@ -39,12 +39,13 @@ class Recipes extends React.Component {
         this.state = {
           recipes: [],
         };
+        // this.componentDidUpdate = this.componentDidUpdate.bind(this);
       }
 
     fetchRecipes(selectedIngred, pageInd){
         console.log("inside fetchRecipes")
         let url = "https://recipepuppyproxy.herokuapp.com/api/?i=" + selectedIngred.join() + "&p=" + pageInd;
-        console.log(url)
+        console.log("url:", url)
         fetch(url)
         .then(res => res.json())
         .then( (result) => {
@@ -58,10 +59,15 @@ class Recipes extends React.Component {
     }
 
     componentDidMount(){
-        console.log("inside componentDidMount")
-        console.log(this.props.selectedIngred)
         this.fetchRecipes(this.props.selectedIngred, 1)
     }
+
+    // componentDidUpdate(prevProps) { //invoked immediately after updating occurs
+    //     if (this.props.selectedIngred !== prevProps.userID) {
+    //         console.log("componentDidUpdate's selectedIngred: ", this.props.selectedIngred);
+    //       this.fetchRecipes(this.props.selectedIngred, 1);
+    //     }
+    //   }
 
     render() {
       return (
@@ -81,8 +87,6 @@ class Recipes extends React.Component {
   export class RecipesPage extends React.Component {
     constructor(props) {
         super(props);
-        // console.log("props.location.selectedIngred below")
-        // console.log(props)
         this.state = {
             selectedIngred: []
         }
@@ -90,15 +94,19 @@ class Recipes extends React.Component {
     };
     
     render() {
-        const { selectedIngred } = this.props.location // or this.props.location.selectedIngred
+        //const { selectedIngred } = this.props.location
+        let passedInSI = []; // from url
+        if (typeof this.props.location.selectedIngred === "object") {  //from Groceries (may or may not be eI) or Header (eI)
+            passedInSI = this.props.location.selectedIngred;
+        }
         return (
             <div>
                 <div className="SelectedIngredients">
-                    <SelectedIngredients selectedIngred={ selectedIngred } />
+                    <SelectedIngredients selectedIngred={ passedInSI } />
                 </div>
 
                 <div className="Recipes">
-                    <Recipes selectedIngred={ selectedIngred }/>
+                    <Recipes selectedIngred={ passedInSI }/>
                 </div>
             </div>
         );

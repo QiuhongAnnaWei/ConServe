@@ -15,20 +15,38 @@ import { Page as GroceryPage } from './pages/GroceryList';
 import { RecipesPage } from './pages/Recipes';
 import Header from './components/Header';
 
-function App() {
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        selectedIngred: [],
+        expiringIngred: [] // for going to Recipe from Header
+    }
+    this.getSelectedIngred = this.getSelectedIngred.bind(this);
+};
 
-  return (
-    <div>
-      <Router>
-        <Header></Header>
-        <Switch>
-          <Route exact path="/" component={GroceryPage}></Route>
-          <Route exact path="/groceries" component={GroceryPage}></Route>
-          <Route exact path="/recipes" component={RecipesPage}></Route>
-        </Switch>
-      </Router>
-    </div>
-  );
+getSelectedIngred(groceryPageSI, groceryPageEI){
+  this.setState({selectedIngred: groceryPageSI, expiringIngred: groceryPageEI})
+}
+
+  render() {
+    return (
+      <div>
+        <Router>
+          <Header callbackFromParents={this.getSelectedIngred} expiringIngred={this.state.expiringIngred}></Header>
+          <Switch>
+            <Route
+              exact path="/"
+              render={
+                props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
+              }></Route>
+            <Route exact path="/groceries" component={GroceryPage}></Route>
+            <Route exact path="/recipes" component={RecipesPage}></Route>
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default App;
