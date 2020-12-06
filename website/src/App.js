@@ -13,7 +13,6 @@ import {
 
 import { Page as GroceryPage } from './pages/GroceryList';
 import { Page as RecipesPage } from './pages/Recipes';
-import { Page as RecipePage } from './pages/Recipe';
 
 function App() {
   return (
@@ -31,7 +30,6 @@ function App() {
           <Route exact path="/" component={GroceryPage}></Route>
           <Route exact path="/groceries" component={GroceryPage}></Route>
           <Route exact path="/recipes" component={RecipesPage}></Route>
-          <Route exact path="/recipes/:id" component={RecipePage}></Route>
         </Switch>
 
       </Router>
