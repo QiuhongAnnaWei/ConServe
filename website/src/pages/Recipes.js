@@ -69,19 +69,19 @@ class Recipes extends React.Component {
         // this.componentDidUpdate = this.componentDidUpdate.bind(this);
     }
 
-    fetchRecipes(selectedIngred, pageInd){
+    fetchRecipes(selectedIngred, pageInd) {
         let url = "https://recipepuppyproxy.herokuapp.com/api/?i=" + selectedIngred.join() + "&p=" + pageInd;
         fetch(url)
             .then(res => res.json())
             .then(
-            (result) => {
-                this.setState({ recipes: result.results });
-            },
-            (error) => { console.log(error); }
-         );
+                (result) => {
+                    this.setState({ recipes: result.results });
+                },
+                (error) => { console.log(error); }
+            );
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.fetchRecipes(this.props.selectedIngred, 1);
     }
 
