@@ -295,7 +295,7 @@ export class Page extends React.Component {
             }
             
             this.setState({selectedIngred: sI})
-            console.log("updateSI called: ", this.state.selected, sI, this.state.selectedIngred)
+            //console.log("updateSI called: ", this.state.selected, sI, this.state.selectedIngred)
         },
         100); 
     }
