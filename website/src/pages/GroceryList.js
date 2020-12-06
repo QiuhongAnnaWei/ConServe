@@ -131,12 +131,12 @@ export class ListRow extends React.Component {
                                 <Button
                                     variant="outline-secondary"
                                     onClick={this.save}
-                                    className="saveButton"
+                                    className="editButton"
                                 >Save</Button>
                                 <Button
                                     variant="outline-danger"
-                                    onClick={() => this.props.deleteIngredient(this.props.ingredient.id)}
-                                >Delete</Button>
+                                    onClick={() => { this.setState({ isEditing: false }) }}
+                                >Cancel</Button>
                             </div>
                         </div>
                     ) : (
