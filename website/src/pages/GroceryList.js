@@ -23,7 +23,7 @@ class Input extends React.Component {
                 />
                 <InputGroup.Append>
                     <Button
-                        variant="outline-secondary"
+                        variant="secondary"
                         type="Submit"
                         onClick={() => { this.props.addIngredient(this.textInput.current.value) }}
                     >+ Add</Button>
@@ -65,10 +65,17 @@ class List extends React.Component {
                                 <td>{ingredient.name}</td>
                                 <td className="ingredientExpiry">
                                     {this.formatDate(ingredient.expiryDate)}
-                                    <Button
-                                        variant="outline-secondary"
-                                        onClick={() => this.props.deleteIngredient(ingredient.id)}
-                                    >Delete</Button>
+                                    <div>
+                                        <Button
+                                            variant="outline-secondary"
+                                            onClick={() => this.props.deleteIngredient(ingredient.id)}
+                                            className="editButton"
+                                        >Edit</Button>
+                                        <Button
+                                            variant="outline-danger"
+                                            onClick={() => this.props.deleteIngredient(ingredient.id)}
+                                        >Delete</Button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -109,7 +116,8 @@ export class Page extends React.Component {
                     name: "Milk",
                     expiryTimeFrame: 10 // days
                 },
-            ]
+            ],
+            selected: []
         }
     }
 

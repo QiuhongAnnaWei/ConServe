@@ -24,3 +24,7 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.editButton {
+    margin-right: 10px;
+}
