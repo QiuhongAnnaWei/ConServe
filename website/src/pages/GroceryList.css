@@ -25,6 +25,20 @@
     justify-content: space-between;
 }
 
+.ingredientExpiryForm {
+    max-width: 200px;
+}
+
 .editButton {
     margin-right: 10px;
+}
+
+.trActive {
+    background-color: lightblue !important;
+}
+.listRow {
+    width: 100%;
+}
+.listRow tr {
+    width: 100%;
 }
