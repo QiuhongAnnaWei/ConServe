@@ -1,0 +1,5 @@
+node_modules
+**.DS_Store**
+*.json
+website/src/pages/temp.js
+website/.eslintcache

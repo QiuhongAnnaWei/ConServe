@@ -12,9 +12,10 @@ import {
 } from "react-router-dom";
 
 import { Page as GroceryPage } from './pages/GroceryList';
-import { Page as RecipesPage } from './pages/Recipes';
+import { RecipesPage } from './pages/Recipes';
 
 function App() {
+  let ingred = ['onions', 'garlic', 'mushroom']
   return (
     <div>
       <Router>
@@ -22,8 +23,16 @@ function App() {
         <li>
           <Link to="/groceries">My Groceries</Link>
         </li>
+
         <li>
-          <Link to="/recipes">Recipes</Link>
+          <Link
+            to={{
+              pathname: "/recipes",
+              // state:"test",
+              // selectedIngred: fruits
+              selectedIngred: ingred 
+           }}
+          >Recipes</Link>
         </li>
 
         <Switch>
