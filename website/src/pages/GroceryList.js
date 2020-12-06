@@ -131,12 +131,12 @@ export class ListRow extends React.Component {
                                 <Button
                                     variant="outline-secondary"
                                     onClick={this.save}
-                                    className="saveButton"
+                                    className="editButton"
                                 >Save</Button>
                                 <Button
                                     variant="outline-danger"
-                                    onClick={() => this.props.deleteIngredient(this.props.ingredient.id)}
-                                >Delete</Button>
+                                    onClick={() => { this.setState({ isEditing: false }) }}
+                                >Cancel</Button>
                             </div>
                         </div>
                     ) : (
@@ -213,7 +213,14 @@ export class Page extends React.Component {
             name: ingredientName,
             expiryDate: expire,
         }
-        this.setState({ nextid: this.state.nextid + 1, ingredients: [...this.state.ingredients, ingredient] })
+
+        let newIngredients = [...this.state.ingredients, ingredient];
+        newIngredients.sort(function (a, b) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(a.expiryDate) - new Date(b.expiryDate);
+        });
+        this.setState({ nextid: this.state.nextid + 1, ingredients: newIngredients });
         this.updateSI();
     }
 
@@ -225,6 +232,13 @@ export class Page extends React.Component {
                 break;
             }
         }
+        let newIngredients = [...this.state.ingredients];
+        newIngredients.sort(function (a, b) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(a.expiryDate) - new Date(b.expiryDate);
+        });
+        this.setState({ ingredients: newIngredients });
         this.updateSI();
     }
 

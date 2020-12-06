@@ -1,8 +1,61 @@
-.SelectedIngredients {
-    color: black;
+.RecipesOuter {
+    padding: 80px;
     width: 100vw;
-    height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.RecipesInner {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.selectedIngredientsOuter {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.selectedIngredientsInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.ingredientCard {
+    margin: 7px;
+    width: 220px;
+}
+
+.ingredientCardBody {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.xButton {
+    padding: 1px 6px !important;
+}
+
+.folioWrapper {
+    width: 100%;
+}
+
+.recipe {
+    width: 100%;
+}
+
+.selected {
+    background-color: #46cc8d;
+}
+
+.ingredientsCaption {
+    width: 40%;
 }
