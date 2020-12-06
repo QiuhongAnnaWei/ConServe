@@ -1,40 +1,62 @@
 import React, { Component } from "react";
 import './Recipes.css';
-import { Table, Card } from "react-bootstrap";
+import { Table, Card, Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class SelectedIngredients extends React.Component {
     render() {
         return (
-            <div>
-                Ingredients
-                <div>
+            <Card className="selectedIngredientsOuter">
+                <Card.Header>Ingredients</Card.Header>
+
+                <Card.Body className="selectedIngredientsInner">
                     {this.props.selectedIngred.map((ingredient) =>
-                        <Card>
-                            <Card.Body>{ingredient}</Card.Body>
+                        <Card className="ingredientCard">
+                            <Card.Body className="ingredientCardBody">
+                                {ingredient}
+                                <Button className="xButton" variant="danger">x</Button>
+                            </Card.Body>
                         </Card>)}
-                </div>
-            </div>
+                </Card.Body>
+            </Card>
         );
     }
 }
 
 
-function Recipe(props) {
-    return (
-        <div className="recipe">
-            <Table bordered hover>
-                <tbody>
-                    <tr> <td>{props.recipe.title}</td> </tr>
-                    <tr> <td>Ingredients</td>
-                        <td>{props.recipe.ingredients}</td>
-                    </tr>
-                    <tr> <td>{props.recipe.href}</td>  </tr>
-                </tbody>
-            </Table>
-        </div>
-    );
+class Recipe extends React.Component {
+    parseIngredients(ingredientString) {
+        return ingredientString.split(", ");
+    }
+    isSelected(ingredientName) {
+        return this.props.selectedIngred.indexOf(ingredientName.toLowerCase()) !== -1;
+    }
+    render() {
+        return (
+            <div className="recipe">
+                <Table bordered hover>
+                    <thead>
+                        <tr>
+                            <th colSpan="2"><a href={this.props.recipe.href}>{this.props.recipe.title}</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className="ingredientsCaption">Ingredients</td>
+                            <td>
+                                {this.parseIngredients(this.props.recipe.ingredients).map((ingredient) => (
+                                    <div className={this.isSelected(ingredient) ? "selected" : ""}>
+                                        {ingredient}
+                                    </div>
+                                ))}
+                            </td>
+                        </tr>
+                    </tbody>
+                </Table>
+            </div>
+        );
+    }
 }
 
 
@@ -73,7 +95,10 @@ class Recipes extends React.Component {
             <div className="folioWrapper">
                 {
                     this.state.recipes.map((recipe, i) => (
-                        <Recipe recipe={recipe} index={i} />
+                        <Recipe
+                            recipe={recipe}
+                            index={i}
+                            selectedIngred={this.props.selectedIngred} />
                     ))
                 }
             </div>
@@ -97,12 +122,9 @@ export class RecipesPage extends React.Component {
     render() {
         const { selectedIngred } = this.props.location // or this.props.location.selectedIngred
         return (
-            <div>
-                <div className="SelectedIngredients">
+            <div className="RecipesOuter">
+                <div className="RecipesInner">
                     <SelectedIngredients selectedIngred={selectedIngred} />
-                </div>
-
-                <div className="Recipes">
                     <Recipes selectedIngred={selectedIngred} />
                 </div>
             </div>
