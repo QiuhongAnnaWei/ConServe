@@ -210,7 +210,14 @@ export class Page extends React.Component {
             name: ingredientName,
             expiryDate: expire
         }
-        this.setState({ nextid: this.state.nextid + 1, ingredients: [...this.state.ingredients, ingredient] })
+
+        let newIngredients = [...this.state.ingredients, ingredient];
+        newIngredients.sort(function (a, b) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(a.expiryDate) - new Date(b.expiryDate);
+        });
+        this.setState({ nextid: this.state.nextid + 1, ingredients: newIngredients });
     }
 
     editIngredient(id, name, expiryDate) {
@@ -221,6 +228,13 @@ export class Page extends React.Component {
                 break;
             }
         }
+        let newIngredients = [...this.state.ingredients];
+        newIngredients.sort(function (a, b) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(a.expiryDate) - new Date(b.expiryDate);
+        });
+        this.setState({ ingredients: newIngredients });
     }
 
     deleteIngredient(id) {
