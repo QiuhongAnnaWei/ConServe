@@ -44,5 +44,10 @@
 }
 
 .greenButton {
-    /* background-color: #006837 !important; */
+    background-color: #006837 !important;
+    border-color: #003f22 !important;
+}
+
+.greenButton:hover {
+    background-color: #003f22 !important;
 }
