@@ -40,7 +40,12 @@ getSelectedIngred(groceryPageSI, groceryPageEI){
               render={
                 props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
               }></Route>
-            <Route exact path="/groceries" component={GroceryPage}></Route>
+
+            <Route
+              exact path="/groceries"
+              render={
+                props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
+              }></Route>
             <Route exact path="/recipes" component={RecipesPage}></Route>
           </Switch>
         </Router>
