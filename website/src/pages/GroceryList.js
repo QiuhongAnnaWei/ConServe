@@ -295,7 +295,7 @@ export class Page extends React.Component {
                 let futureExpireDate = new Date(); //today
                 futureExpireDate.setDate(futureExpireDate.getDate() + 7);
                 if (ingred.expiryDate <= futureExpireDate) {
-                    eI.push(ingred.name);
+                    eI.push(ingred.name.toLowerCase());
                 }
             }
             if (this.state.selected.length == 0) { //if no ingredient selected
@@ -315,8 +315,8 @@ export class Page extends React.Component {
             } else { // from Header
                 this.props.location.callbackFromParents(sI, eI);
             }
-            
-            this.setState({selectedIngred: sI})
+
+            this.setState({ selectedIngred: sI })
             //console.log("updateSI called: ", this.state.selected, sI, this.state.selectedIngred)
         },
             100);
