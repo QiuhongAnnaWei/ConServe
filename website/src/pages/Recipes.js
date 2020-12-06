@@ -38,7 +38,7 @@ class Recipe extends React.Component {
                 <Table bordered hover>
                     <thead>
                         <tr>
-                            <th colSpan="2"><a href={this.props.recipe.href}>{this.props.recipe.title}</a></th>
+                            <th colSpan="2"><a target="_blank" href={this.props.recipe.href}>{this.props.recipe.title}</a></th>
                         </tr>
                     </thead>
                     <tbody>
