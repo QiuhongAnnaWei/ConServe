@@ -1,7 +1,7 @@
 node_modules
 **.DS_Store**
-*.json
 src/pages/temp.js
+Src/pages/recipe.json
 .eslintcache
 
 
