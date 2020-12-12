@@ -22,6 +22,17 @@ function Header(props) {
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
     }, []);
 
+    const signOut = () => {
+        firebase.auth().signOut().then(function () {
+            alert("Signout Successful!")
+            setIsSignedIn(false);
+        }).catch(function (error) {
+            alert("error" + error);
+        });
+    }
+
+    console.log("isSignedIn", isSignedIn);
+
     if (isSignedIn) {
         return (
             <div className="headerOuter">
@@ -38,6 +49,12 @@ function Header(props) {
                             pathname: "/recipes",
                             selectedIngred: props.expiringIngred
                         }}>Recipes</Link>
+                    <Link
+                        to={{
+                            pathname: "/signin",
+                        }}
+                        onClick={signOut}
+                    >Sign Out</Link>
                 </div>
             </div>
         );
@@ -49,7 +66,6 @@ function Header(props) {
                     <Link
                         to={{
                             pathname: "/signin",
-                            callbackFromParents: props.callbackFromParents
                         }}>Sign In</Link>
                 </div>
             </div>
