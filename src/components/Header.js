@@ -18,6 +18,7 @@ function Header(props) {
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
             setIsSignedIn(!!user);
+            props.setPropsIsSignedIn(!!user);
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
     }, []);
@@ -26,6 +27,7 @@ function Header(props) {
         firebase.auth().signOut().then(function () {
             alert("Signout Successful!")
             setIsSignedIn(false);
+            props.setPropsIsSignedIn(false);
         }).catch(function (error) {
             alert("error" + error);
         });
