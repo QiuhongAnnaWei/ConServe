@@ -1,18 +1,7 @@
 import React, { Component } from "react";
+import './SignIn.css'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
-
-// Configure Firebase.
-const config = {
-    apiKey: "AIzaSyBz4lkr1C5TCQlunN9mSmc9alXaRNQS7sI",
-    authDomain: "con--serve.firebaseapp.com",
-    projectId: "con--serve",
-    storageBucket: "con--serve.appspot.com",
-    messagingSenderId: "381328228352",
-    appId: "1:381328228352:web:d8c19175d6b95f255858e5",
-    measurementId: "G-RX1RB8F4YX"
-};
-firebase.initializeApp(config);
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -29,7 +18,7 @@ const uiConfig = {
 export class SignInPage extends React.Component {
     render() {
         return (
-            <div>
+            <div className="signinpage">
                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
             </div>
         )
