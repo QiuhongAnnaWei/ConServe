@@ -11,6 +11,8 @@ import {
     useParams
 } from "react-router-dom";
 
+import firebase from 'firebase';
+
 class Input extends React.Component {
     constructor(props) {
         super(props);
@@ -217,14 +219,6 @@ export class Page extends React.Component {
         }
         this.updateSI(); // setting sI and eI as Apple and Milk
     }
-    useEffect(() => {
-        const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-            //setIsSignedIn(!!user);
-            console.log("user.uid", user.uid)
-        });
-        return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-    }, []);
-
 
     addIngredient(ingredientName) {
         var expire = new Date();
@@ -352,6 +346,12 @@ export class Page extends React.Component {
     }
 
     render() {
+        if (this.props.isSignedIn){
+            console.log("grocerylist.js: user.uid", firebase.auth().currentUser.uid)
+        } else{
+            console.log("grocerylist.js: not signed in!")
+        }
+
         return (
             <div className="groceryListBody">
                 <div className="groceryListInner">
