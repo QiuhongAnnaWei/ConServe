@@ -7,12 +7,14 @@ import {
   Switch,
   Route,
   Link,
-  useParams
+  useParams,
+  Redirect
 } from "react-router-dom";
 
 import { Page as GroceryPage } from './pages/GroceryList';
 import { RecipesPage } from './pages/Recipes';
 import { SignInPage } from './pages/SignIn';
+import { ErrorPage } from './pages/Error';
 import Header from './components/Header';
 
 import firebase from 'firebase';
@@ -37,35 +39,40 @@ class App extends React.Component {
     super(props);
     this.state = {
       selectedIngred: [],
-      expiringIngred: [] // for going to Recipe from Header
+      expiringIngred: [], // for going to Recipe from Header
+      isSignedIn: false
     }
     this.getSelectedIngred = this.getSelectedIngred.bind(this);
+    this.setIsSignedIn = this.setIsSignedIn.bind(this);
   };
 
   getSelectedIngred(groceryPageSI, groceryPageEI) {
     this.setState({ selectedIngred: groceryPageSI, expiringIngred: groceryPageEI })
   }
 
+  setIsSignedIn(newIsSignedIn) {
+    this.setState({ isSignedIn: newIsSignedIn });
+  }
+
   render() {
     return (
       <div>
         <Router>
-          <Header callbackFromParents={this.getSelectedIngred} expiringIngred={this.state.expiringIngred}></Header>
+          <Header
+            callbackFromParents={this.getSelectedIngred}
+            expiringIngred={this.state.expiringIngred}
+            setPropsIsSignedIn={(v) => this.setIsSignedIn(v)}></Header>
           <Switch>
-            {/* <Route
-              exact path="/"
-              render={
-                props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
-              }></Route> */}
-
-            <Route
+            {this.state.isSignedIn && (<Route
               exact path="/groceries"
               render={
                 props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
-              }></Route>
-            <Route exact path="/recipes" component={RecipesPage}></Route>
+              }></Route>)}
+            {this.state.isSignedIn && (<Route exact path="/recipes" component={RecipesPage}></Route>)}
+
             <Route exact path="/" component={SignInPage}></Route>
             <Route exact path="/signin" component={SignInPage}></Route>
+            <Route component={ErrorPage}></Route>
           </Switch>
         </Router>
       </div>
