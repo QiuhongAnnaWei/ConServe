@@ -16,6 +16,9 @@ import { SignInPage } from './pages/SignIn';
 import Header from './components/Header';
 
 import firebase from 'firebase';
+require("firebase");
+// Required for side-effects
+require("firebase/firestore");
 
 // Configure Firebase.
 const config = {

@@ -217,6 +217,14 @@ export class Page extends React.Component {
         }
         this.updateSI(); // setting sI and eI as Apple and Milk
     }
+    useEffect(() => {
+        const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+            //setIsSignedIn(!!user);
+            console.log("user.uid", user.uid)
+        });
+        return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+    }, []);
+
 
     addIngredient(ingredientName) {
         var expire = new Date();
@@ -242,6 +250,19 @@ export class Page extends React.Component {
         });
         this.setState({ nextid: this.state.nextid + 1, ingredients: newIngredients });
         this.updateSI();
+
+        // var db = firebase.firestore(); // Initialize an instance of Cloud Firestore:
+        // db.collection("users").add({
+        // first: "Ada",
+        // last: "Lovelace",
+        // born: 1815
+        // })
+        // .then(function(docRef) {
+        // console.log("Document written with ID: ", docRef.id);
+        // })
+        // .catch(function(error) {
+        // console.error("Error adding document: ", error);
+        // });
     }
 
     editIngredient(id, name, expiryDate) {
