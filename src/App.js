@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import './App.css';
 
@@ -62,6 +61,7 @@ class App extends React.Component {
             callbackFromParents={this.getSelectedIngred}
             expiringIngred={this.state.expiringIngred}
             setPropsIsSignedIn={(v) => this.setIsSignedIn(v)}></Header>
+          {this.state.isSignedIn && <h3 className="welcome">Welcome, {firebase.auth().currentUser.displayName}.</h3>}
           <Switch>
             {this.state.isSignedIn && (<Route
               exact path="/groceries"
@@ -70,9 +70,14 @@ class App extends React.Component {
               }></Route>)}
             {this.state.isSignedIn && (<Route exact path="/recipes" component={RecipesPage}></Route>)}
 
-            <Route exact path="/" component={SignInPage}></Route>
-            <Route exact path="/signin" component={SignInPage}></Route>
-            <Route component={ErrorPage}></Route>
+            {!this.state.isSignedIn && (<Route exact path="/" component={SignInPage}></Route>)}
+            {!this.state.isSignedIn && (<Route exact path="/signin" component={SignInPage}></Route>)}
+            <Route
+              exact path="/"
+              render={
+                props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
+              }></Route>
+            <Route component={ErrorPage}></Route>)
           </Switch>
         </Router>
       </div>
