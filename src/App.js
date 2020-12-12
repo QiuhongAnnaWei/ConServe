@@ -37,11 +37,11 @@ class App extends React.Component {
         <Router>
           <Header callbackFromParents={this.getSelectedIngred} expiringIngred={this.state.expiringIngred}></Header>
           <Switch>
-            <Route
+            {/* <Route
               exact path="/"
               render={
                 props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
-              }></Route>
+              }></Route> */}
 
             <Route
               exact path="/groceries"
@@ -49,6 +49,7 @@ class App extends React.Component {
                 props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
               }></Route>
             <Route exact path="/recipes" component={RecipesPage}></Route>
+            <Route exact path="/" component={SignInPage}></Route>
             <Route exact path="/signin" component={SignInPage}></Route>
             <Route exact path="/signup" component={SignUpPage}></Route>
           </Switch>
