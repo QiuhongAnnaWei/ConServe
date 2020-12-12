@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import './App.css';
 
@@ -59,6 +58,7 @@ class App extends React.Component {
             callbackFromParents={this.getSelectedIngred}
             expiringIngred={this.state.expiringIngred}
             setPropsIsSignedIn={(v) => this.setIsSignedIn(v)}></Header>
+          {this.state.isSignedIn && <h3 className="welcome">Welcome, {firebase.auth().currentUser.displayName}.</h3>}
           <Switch>
             {this.state.isSignedIn && (<Route
               exact path="/groceries"
