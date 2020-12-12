@@ -13,21 +13,23 @@ import {
 
 import { Page as GroceryPage } from './pages/GroceryList';
 import { RecipesPage } from './pages/Recipes';
+import { SignInPage } from './pages/SignIn';
+import { SignUpPage } from './pages/SignUp';
 import Header from './components/Header';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        selectedIngred: [],
-        expiringIngred: [] // for going to Recipe from Header
+      selectedIngred: [],
+      expiringIngred: [] // for going to Recipe from Header
     }
     this.getSelectedIngred = this.getSelectedIngred.bind(this);
-};
+  };
 
-getSelectedIngred(groceryPageSI, groceryPageEI){
-  this.setState({selectedIngred: groceryPageSI, expiringIngred: groceryPageEI})
-}
+  getSelectedIngred(groceryPageSI, groceryPageEI) {
+    this.setState({ selectedIngred: groceryPageSI, expiringIngred: groceryPageEI })
+  }
 
   render() {
     return (
@@ -47,6 +49,8 @@ getSelectedIngred(groceryPageSI, groceryPageEI){
                 props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
               }></Route>
             <Route exact path="/recipes" component={RecipesPage}></Route>
+            <Route exact path="/signin" component={SignInPage}></Route>
+            <Route exact path="/signup" component={SignUpPage}></Route>
           </Switch>
         </Router>
       </div>
