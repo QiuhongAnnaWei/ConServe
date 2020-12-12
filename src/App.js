@@ -67,9 +67,14 @@ class App extends React.Component {
               }></Route>)}
             {this.state.isSignedIn && (<Route exact path="/recipes" component={RecipesPage}></Route>)}
 
-            <Route exact path="/" component={SignInPage}></Route>
-            <Route exact path="/signin" component={SignInPage}></Route>
-            <Route component={ErrorPage}></Route>
+            {!this.state.isSignedIn && (<Route exact path="/" component={SignInPage}></Route>)}
+            {!this.state.isSignedIn && (<Route exact path="/signin" component={SignInPage}></Route>)}
+            <Route
+              exact path="/"
+              render={
+                props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
+              }></Route>
+            <Route component={ErrorPage}></Route>)
           </Switch>
         </Router>
       </div>
