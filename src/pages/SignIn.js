@@ -13,6 +13,10 @@ const uiConfig = {
     signInOptions: [
         firebase.auth.EmailAuthProvider.PROVIDER_ID
     ],
+    // callbacks: {
+    //     // Avoid redirects after sign-in.
+    //     signInSuccessWithAuthResult: () => false,
+    // },
 };
 
 export class SignInPage extends React.Component {
