@@ -1,6 +1,5 @@
 
 import React, { Component } from "react";
-import logo from './logo.svg';
 import './App.css';
 
 import {
@@ -16,7 +15,6 @@ import { RecipesPage } from './pages/Recipes';
 import { SignInPage } from './pages/SignIn';
 import Header from './components/Header';
 
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 
 // Configure Firebase.
