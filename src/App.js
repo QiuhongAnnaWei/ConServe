@@ -13,6 +13,7 @@ import {
 import { Page as GroceryPage } from './pages/GroceryList';
 import { RecipesPage } from './pages/Recipes';
 import { SignInPage } from './pages/SignIn';
+import { ErrorPage } from './pages/Error';
 import Header from './components/Header';
 
 import firebase from 'firebase';
@@ -49,12 +50,6 @@ class App extends React.Component {
         <Router>
           <Header callbackFromParents={this.getSelectedIngred} expiringIngred={this.state.expiringIngred}></Header>
           <Switch>
-            {/* <Route
-              exact path="/"
-              render={
-                props => <GroceryPage {...props} callbackFromParents={this.getSelectedIngred}></GroceryPage>
-              }></Route> */}
-
             <Route
               exact path="/groceries"
               render={
@@ -63,6 +58,7 @@ class App extends React.Component {
             <Route exact path="/recipes" component={RecipesPage}></Route>
             <Route exact path="/" component={SignInPage}></Route>
             <Route exact path="/signin" component={SignInPage}></Route>
+            <Route component={ErrorPage}></Route>
           </Switch>
         </Router>
       </div>
