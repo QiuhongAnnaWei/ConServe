@@ -220,7 +220,7 @@ export class Page extends React.Component {
             }
         }
 
-        let ingredient = {
+        const ingredient = {
             id: this.state.nextid,
             name: ingredientName,
             expiryDate: expire,
@@ -240,14 +240,16 @@ export class Page extends React.Component {
         userRef.get()
             .then((docSnapshot) => {
                 console.log("docSnapshot", docSnapshot);
-                userRef.collection("groceries").add({
-                    name: ingredientName,
-                    expiryDate: expire,
+                userRef.collection("groceries").doc(ingredient.id).set({
+                    name: ingredient.name,
+                    expiryDate: ingredient.expiryDate,
                 }).then(function (docRef) {
                     console.log("Document written with ID: ", docRef.id);
                 }).catch(function (error) {
                     console.error("Error adding document: ", error);
                 }); // create the document
+            }).catch(function (error) {
+                console.error("Error adding document: ", error);
             });
     }
 
@@ -267,6 +269,21 @@ export class Page extends React.Component {
         });
         this.setState({ ingredients: newIngredients });
         this.updateSI();
+
+        const db = firebase.firestore(); // Initialize an instance of Cloud Firestore:
+        const userRef = db.collection("users").doc(firebase.auth().currentUser.uid);
+        userRef.get()
+            .then((docSnapshot) => {
+                console.log("docSnapshot", docSnapshot);
+                userRef.collection("groceries").doc(id).update({
+                    name: name,
+                    expiryDate: expiryDate,
+                }).then(function (docRef) {
+                    console.log("Document updated with ID: ", docRef.id);
+                }).catch(function (error) {
+                    console.error("Error updating document: ", error);
+                }); // update the document
+            });
     }
 
     deleteIngredient(id) {
@@ -276,7 +293,18 @@ export class Page extends React.Component {
             array.splice(index, 1);
             this.setState({ ingredients: array });
         }
-        //this.select(id) //to remove it form selected
+
+        const db = firebase.firestore(); // Initialize an instance of Cloud Firestore:
+        const userRef = db.collection("users").doc(firebase.auth().currentUser.uid);
+        userRef.get()
+            .then((docSnapshot) => {
+                console.log("docSnapshot", docSnapshot);
+                userRef.collection("groceries").doc(id).delete().then(function (docRef) {
+                    console.log("Document deleted with ID: ", docRef.id);
+                }).catch(function (error) {
+                    console.error("Error deleting document: ", error);
+                }); // delete the document
+            });
     }
 
     isSelected(id) {
