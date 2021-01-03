@@ -169,16 +169,6 @@ export class Page extends React.Component {
         this.state = {
             nextid: 2,
             ingredients: [
-                {
-                    id: 0,
-                    name: "Apple",
-                    expiryDate: Date.now()
-                },
-                {
-                    id: 1,
-                    name: "Milk",
-                    expiryDate: Date.now()
-                }
             ],
             expiryDB: [
                 {
@@ -245,18 +235,27 @@ export class Page extends React.Component {
         this.setState({ nextid: this.state.nextid + 1, ingredients: newIngredients });
         this.updateSI();
 
-        // var db = firebase.firestore(); // Initialize an instance of Cloud Firestore:
-        // db.collection("users").add({
-        // first: "Ada",
-        // last: "Lovelace",
-        // born: 1815
-        // })
-        // .then(function(docRef) {
-        // console.log("Document written with ID: ", docRef.id);
-        // })
-        // .catch(function(error) {
-        // console.error("Error adding document: ", error);
-        // });
+        const db = firebase.firestore(); // Initialize an instance of Cloud Firestore:
+        const userRef = db.collection("users").doc(firebase.auth().currentUser.uid);
+        userRef.get()
+            .then((docSnapshot) => {
+                if (docSnapshot.exists) {
+                    userRef.onSnapshot((doc) => {
+                        // do stuff with the data
+                        // doc.set
+                        console.log("doc", doc)
+                    });
+                } else {
+                    userRef.collection("groceries").add({
+                        name: ingredientName,
+                        expiryDate: expire,
+                    }).then(function (docRef) {
+                        console.log("Document written with ID: ", docRef.id);
+                    }).catch(function (error) {
+                        console.error("Error adding document: ", error);
+                    }); // create the document
+                }
+            });
     }
 
     editIngredient(id, name, expiryDate) {
@@ -327,7 +326,7 @@ export class Page extends React.Component {
                     }
                 }
                 //none of the ones in selected is in ingredients -> all deleted
-                if (sI.length === 0){
+                if (sI.length === 0) {
                     sI = eI.slice();
                 }
             }
@@ -346,9 +345,9 @@ export class Page extends React.Component {
     }
 
     render() {
-        if (this.props.isSignedIn){
+        if (this.props.isSignedIn) {
             console.log("grocerylist.js: user.uid", firebase.auth().currentUser.uid)
-        } else{
+        } else {
             console.log("grocerylist.js: not signed in!")
         }
 
