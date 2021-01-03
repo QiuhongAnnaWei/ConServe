@@ -239,22 +239,15 @@ export class Page extends React.Component {
         const userRef = db.collection("users").doc(firebase.auth().currentUser.uid);
         userRef.get()
             .then((docSnapshot) => {
-                if (docSnapshot.exists) {
-                    userRef.onSnapshot((doc) => {
-                        // do stuff with the data
-                        // doc.set
-                        console.log("doc", doc)
-                    });
-                } else {
-                    userRef.collection("groceries").add({
-                        name: ingredientName,
-                        expiryDate: expire,
-                    }).then(function (docRef) {
-                        console.log("Document written with ID: ", docRef.id);
-                    }).catch(function (error) {
-                        console.error("Error adding document: ", error);
-                    }); // create the document
-                }
+                console.log("docSnapshot", docSnapshot);
+                userRef.collection("groceries").add({
+                    name: ingredientName,
+                    expiryDate: expire,
+                }).then(function (docRef) {
+                    console.log("Document written with ID: ", docRef.id);
+                }).catch(function (error) {
+                    console.error("Error adding document: ", error);
+                }); // create the document
             });
     }
 
