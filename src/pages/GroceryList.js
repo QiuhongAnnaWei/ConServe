@@ -167,7 +167,6 @@ export class Page extends React.Component {
         super(props);
         this.updateSI = this.updateSI.bind(this);
         this.state = {
-            nextid: 2,
             ingredients: [
             ],
             expiryDB: [
@@ -220,8 +219,28 @@ export class Page extends React.Component {
             }
         }
 
+        let newId;
+
+        const db = firebase.firestore(); // Initialize an instance of Cloud Firestore:
+        const userRef = db.collection("users").doc(firebase.auth().currentUser.uid);
+        userRef.get()
+            .then((docSnapshot) => {
+                console.log("docSnapshot", docSnapshot);
+                userRef.collection("groceries").add({
+                    name: ingredient.name,
+                    expiryDate: ingredient.expiryDate,
+                }).then(function (docRef) {
+                    newId = docRef.id;
+                    console.log("Document written with ID: ", docRef.id);
+                }).catch(function (error) {
+                    console.error("Error adding document: ", error);
+                }); // create the document
+            }).catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
+
         const ingredient = {
-            id: this.state.nextid,
+            id: newId,
             name: ingredientName,
             expiryDate: expire,
         }
@@ -232,25 +251,8 @@ export class Page extends React.Component {
             // to get a value that is either negative, positive, or zero.
             return new Date(a.expiryDate) - new Date(b.expiryDate);
         });
-        this.setState({ nextid: this.state.nextid + 1, ingredients: newIngredients });
+        this.setState({ ingredients: newIngredients });
         this.updateSI();
-
-        const db = firebase.firestore(); // Initialize an instance of Cloud Firestore:
-        const userRef = db.collection("users").doc(firebase.auth().currentUser.uid);
-        userRef.get()
-            .then((docSnapshot) => {
-                console.log("docSnapshot", docSnapshot);
-                userRef.collection("groceries").doc(ingredient.id).set({
-                    name: ingredient.name,
-                    expiryDate: ingredient.expiryDate,
-                }).then(function (docRef) {
-                    console.log("Document written with ID: ", docRef.id);
-                }).catch(function (error) {
-                    console.error("Error adding document: ", error);
-                }); // create the document
-            }).catch(function (error) {
-                console.error("Error adding document: ", error);
-            });
     }
 
     editIngredient(id, name, expiryDate) {
